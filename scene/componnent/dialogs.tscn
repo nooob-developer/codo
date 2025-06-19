@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://d3x1ko88h14sd"]
+
+[node name="Dialogs" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SaveFileDialog" type="FileDialog" parent="."]
+position = Vector2i(735, 400)
+always_on_top = true
+access = 2
+show_hidden_files = true
+use_native_dialog = true
+
+[node name="OpenFileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+position = Vector2i(970, 350)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.txt", "*.html", "*.md", "*.gd", "*.py")
+show_hidden_files = true
+use_native_dialog = true
+
+[node name="OpenFolderDialog" type="FileDialog" parent="."]
+auto_translate_mode = 1
+title = "Open a Directory"
+position = Vector2i(670, 350)
+ok_button_text = "Select Current Folder"
+file_mode = 2
+access = 2
+show_hidden_files = true
+use_native_dialog = true

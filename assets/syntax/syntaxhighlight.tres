@@ -1,0 +1,35 @@
+[gd_resource type="CodeHighlighter" format=3]
+
+[resource]
+function_color = Color(0.6, 0.8, 1)
+keyword_colors = {
+    "func": Color(0.6, 0.8, 1),
+    "var": Color(0.6, 0.8, 1),
+    "const": Color(0.6, 0.8, 1),
+    "if": Color(0.6, 0.8, 1),
+    "else": Color(0.6, 0.8, 1),
+    "for": Color(0.6, 0.8, 1),
+    "while": Color(0.6, 0.8, 1),
+    "return": Color(0.6, 0.8, 1),
+    "match": Color(0.6, 0.8, 1),
+    "break": Color(0.6, 0.8, 1),
+    "continue": Color(0.6, 0.8, 1),
+    "true": Color(0.6, 0.8, 1),
+    "false": Color(0.6, 0.8, 1),
+    "null": Color(0.6, 0.8, 1),
+    "class": Color(0.6, 0.8, 1),
+    "extends": Color(0.6, 0.8, 1),
+    "self": Color(0.6, 0.8, 1),
+    "super": Color(0.6, 0.8, 1),
+    "pass": Color(0.6, 0.8, 1),
+    "in": Color(0.6, 0.8, 1),
+    "as": Color(0.6, 0.8, 1),
+    "is": Color(0.6, 0.8, 1),
+    "not": Color(0.6, 0.8, 1),
+    "and": Color(0.6, 0.8, 1),
+    "or": Color(0.6, 0.8, 1)
+}
+number_color = Color(1, 0.5, 0.5)
+symbol_color = Color(1, 0.6, 0.2)
+string_color = Color(1, 0.6, 0.2)
+comment_color = Color(0.5, 0.5, 0.5)

@@ -1,0 +1,194 @@
+[gd_scene load_steps=23 format=3 uid="uid://ddoya76m8yj34"]
+
+[ext_resource type="Texture2D" uid="uid://cw5wvdoj76b8l" path="res://assets/icons/new-file-svgrepo-com.svg" id="1_bksg1"]
+[ext_resource type="Script" uid="uid://cwm1xbe6at8kf" path="res://scene/script/side_panel.gd" id="1_tvjnl"]
+[ext_resource type="Texture2D" uid="uid://bfen1dmbxmc" path="res://assets/icons/open-external-svgrepo-com.svg" id="2_tvjnl"]
+[ext_resource type="Texture2D" uid="uid://dfkuvev1cqipd" path="res://assets/icons/save-svgrepo-com.svg" id="3_e52kk"]
+[ext_resource type="Texture2D" uid="uid://dumivtp0rbimc" path="res://assets/icons/terminal-outline-svgrepo-com.svg" id="6_e52kk"]
+[ext_resource type="Texture2D" uid="uid://msgs6pdenj22" path="res://assets/icons/terminal_outline_f2.svg" id="6_nnkte"]
+[ext_resource type="Texture2D" uid="uid://8c34udih08v5" path="res://assets/icons/terminal_outline_f1.svg" id="7_mykli"]
+[ext_resource type="Texture2D" uid="uid://bexf5yqlvtvge" path="res://assets/icons/terminal_outline_f3.svg" id="8_s0k88"]
+[ext_resource type="Texture2D" uid="uid://bu0rdqls1dvc1" path="res://assets/icons/terminal_outline_f4.svg" id="9_s4324"]
+[ext_resource type="Texture2D" uid="uid://rw84skau3kpi" path="res://assets/icons/terminal_outline_f5.svg" id="10_1xo7g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mdnhu"]
+bg_color = Color(0.1952, 0.176, 0.32, 1)
+border_width_right = 3
+
+[sub_resource type="InputEventKey" id="InputEventKey_s0k88"]
+device = -1
+ctrl_pressed = true
+keycode = 78
+unicode = 110
+
+[sub_resource type="Shortcut" id="Shortcut_s4324"]
+events = [SubResource("InputEventKey_s0k88")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_mykli"]
+device = -1
+ctrl_pressed = true
+pressed = true
+keycode = 79
+unicode = 111
+
+[sub_resource type="Shortcut" id="Shortcut_s0k88"]
+events = [SubResource("InputEventKey_mykli")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_s4324"]
+device = -1
+ctrl_pressed = true
+keycode = 83
+unicode = 115
+
+[sub_resource type="Shortcut" id="Shortcut_1xo7g"]
+events = [SubResource("InputEventKey_s4324")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_nnkte"]
+device = -1
+ctrl_pressed = true
+pressed = true
+keycode = 84
+unicode = 116
+
+[sub_resource type="Shortcut" id="Shortcut_mykli"]
+events = [SubResource("InputEventKey_nnkte")]
+
+[sub_resource type="Animation" id="Animation_jc7fa"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("terminal:texture_pressed")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("6_nnkte")]
+}
+
+[sub_resource type="Animation" id="Animation_kewgs"]
+resource_name = "new_animation"
+length = 1.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("terminal:texture_pressed")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.29, 0.62, 0.97, 1.34),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("7_mykli"), ExtResource("6_nnkte"), ExtResource("8_s0k88"), ExtResource("9_s4324"), ExtResource("10_1xo7g")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6qxfp"]
+_data = {
+&"RESET": SubResource("Animation_jc7fa"),
+&"new_animation": SubResource("Animation_kewgs")
+}
+
+[node name="side_panel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_tvjnl")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.191
+anchor_bottom = 1.0
+offset_right = -0.720032
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel2" type="Panel" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_mdnhu")
+
+[node name="newfile" type="TextureButton" parent="HBoxContainer/Panel2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.065
+anchor_top = 0.933
+anchor_right = 0.159
+anchor_bottom = 0.97
+offset_left = 0.884998
+offset_top = 3.29297
+offset_right = 0.0109978
+offset_bottom = -2.63
+shortcut = SubResource("Shortcut_s4324")
+texture_normal = ExtResource("1_bksg1")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="openfile" type="TextureButton" parent="HBoxContainer/Panel2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.282
+anchor_top = 0.933
+anchor_right = 0.39
+anchor_bottom = 0.97
+offset_left = 0.0179977
+offset_top = 0.292969
+offset_right = -0.0500031
+offset_bottom = 0.369995
+shortcut = SubResource("Shortcut_s0k88")
+texture_normal = ExtResource("2_tvjnl")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="savefile" type="TextureButton" parent="HBoxContainer/Panel2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.555
+anchor_top = 0.933
+anchor_right = 0.663
+anchor_bottom = 0.97
+offset_left = -5.905
+offset_top = 0.292969
+offset_right = -5.97301
+offset_bottom = 0.369995
+shortcut = SubResource("Shortcut_1xo7g")
+texture_normal = ExtResource("3_e52kk")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="terminal" type="TextureButton" parent="HBoxContainer/Panel2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.798
+anchor_top = 0.934
+anchor_right = 0.906
+anchor_bottom = 0.97
+offset_left = -3.26999
+offset_top = -4.72003
+offset_right = 1.31
+offset_bottom = 4.40002
+shortcut = SubResource("Shortcut_mykli")
+texture_normal = ExtResource("6_e52kk")
+texture_pressed = ExtResource("6_nnkte")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HBoxContainer/Panel2"]
+libraries = {
+&"": SubResource("AnimationLibrary_6qxfp")
+}
+autoplay = "new_animation"
+speed_scale = 0.538
+
+[connection signal="pressed" from="HBoxContainer/Panel2/newfile" to="." method="_on_newfile_pressed"]
+[connection signal="pressed" from="HBoxContainer/Panel2/openfile" to="." method="_on_openfile_pressed"]
+[connection signal="pressed" from="HBoxContainer/Panel2/savefile" to="." method="_on_savefile_pressed"]
+[connection signal="pressed" from="HBoxContainer/Panel2/terminal" to="." method="_on_terminal_pressed"]

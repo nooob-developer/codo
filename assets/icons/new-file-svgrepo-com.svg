@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+
+<svg
+   fill="#deddda"
+   width="800"
+   height="800"
+   viewBox="0 0 30 30"
+   stroke="#deddda"
+   stroke-width="0.18"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="new-file-svgrepo-com.svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.23375"
+     inkscape:cx="38.502674"
+     inkscape:cy="1001.0695"
+     inkscape:window-width="1829"
+     inkscape:window-height="964"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="SVGRepo_iconCarrier">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="30"
+       height="30"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <g
+     id="SVGRepo_iconCarrier"
+     style="stroke:#deddda;stroke-width:0.516491;stroke-dasharray:none;stroke-opacity:1"
+     transform="matrix(0.93610096,0,0,0.93610096,0.95848561,0.95848561)"
+     inkscape:export-filename="SVGRepo_iconCarrier.svg"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96">
+    <path
+       d="m 17.016294,3.1216739 c -0.276,0.004 -0.504,0.224 -0.5,0.5 v 4 c 0,0.822 0.678,1.5 1.5,1.5 h 4 c 0.668,0.01 0.646,-1 0,-1 h -4 c -0.286,0 -0.5,-0.214 -0.5,-0.5 v -4 c 0.004,-0.282 -0.218,-0.504 -0.5,-0.5 z M 4.5,0 C 3.678,0 3,0.678 3,1.5 v 27 C 3,29.322 3.678,30 4.5,30 h 21 C 26.322,30 27,29.322 27,28.5 V 7.5 C 27,7.367 26.947,7.24 26.854,7.146 l -7,-7 C 19.76,0.053 19.634,0 19.5,0 Z m 0,1 H 19.293 L 26,7.707 V 28.5 C 26,28.786 25.786,29 25.5,29 H 4.5 C 4.214,29 4,28.786 4,28.5 V 1.5 C 4,1.214 4.214,1 4.5,1 Z"
+       id="path1"
+       style="stroke:#deddda;stroke-width:1.20552;stroke-dasharray:none;stroke-opacity:1"
+       sodipodi:nodetypes="ccsscsssccsssssssccsssccssssss" />
+  </g>
+</svg>

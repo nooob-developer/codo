@@ -1,0 +1,67 @@
+[gd_scene load_steps=6 format=3 uid="uid://bgmhcc6k1653f"]
+
+[ext_resource type="Theme" uid="uid://dg6omohogcvmn" path="res://addons/gdterm/themes/light.tres" id="1_jn61c"]
+[ext_resource type="Script" uid="uid://ckke467evkls3" path="res://addons/gdterm/terminal/main.gd" id="2_i4ab5"]
+[ext_resource type="Script" uid="uid://drxtkvi4blt53" path="res://addons/gdterm/terminal/term_container.gd" id="3_gwlhj"]
+[ext_resource type="AudioStream" uid="uid://dxb1sddgekrg5" path="res://addons/gdterm/audio/bell.mp3" id="4_gcw0p"]
+[ext_resource type="PackedScene" uid="uid://b62ioxhftvwg7" path="res://addons/gdterm/terminal/term.tscn" id="5_5rwyb"]
+
+[node name="main" type="MarginContainer"]
+anchors_preset = -1
+anchor_left = 0.190104
+anchor_top = 0.697222
+anchor_right = 1.0
+anchor_bottom = 0.999074
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_jn61c")
+script = ExtResource("2_i4ab5")
+metadata/_edit_use_anchors_ = true
+
+[node name="term_container" type="MarginContainer" parent="."]
+layout_mode = 2
+script = ExtResource("3_gwlhj")
+
+[node name="player" type="AudioStreamPlayer" parent="term_container"]
+stream = ExtResource("4_gcw0p")
+
+[node name="term" parent="term_container" instance=ExtResource("5_5rwyb")]
+layout_mode = 2
+active = true
+
+[node name="menu" parent="term_container/term" index="0"]
+use_hdr_2d = true
+
+[node name="GDTerm" parent="term_container/term" index="1"]
+black = Color(0.89, 0.869975, 0.6497, 1)
+red = Color(0.733333, 0, 0, 1)
+green = Color(0, 0.733333, 0, 1)
+yellow = Color(0.466667, 0.466667, 0, 1)
+blue = Color(0.8272, 0.8366, 0.94, 1)
+magenta = Color(0.733333, 0, 0.733333, 1)
+cyan = Color(0, 0.733333, 0.733333, 1)
+white = Color(0.733333, 0.733333, 0.733333, 1)
+bright_black = Color(0.31802, 0.31802, 0.31802, 1)
+bright_red = Color(0.733333, 0, 0, 1)
+bright_green = Color(0, 0.733333, 0, 1)
+bright_yellow = Color(0.666667, 0.666667, 0, 1)
+bright_blue = Color(0.313882, 0.431758, 0.982605, 1)
+bright_magenta = Color(0.866667, 0, 0.866667, 1)
+bright_cyan = Color(0, 0.866667, 0.866667, 1)
+bright_white = Color(0.866667, 0.866667, 0.866667, 1)
+foreground = Color(0.835833, 0.85, 0.6375, 1)
+background = Color(0.0980392, 0.0901961, 0.141176, 1)
+
+[node name="scrollbar" parent="term_container/term" index="2"]
+max_value = 66.0
+page = 18.0
+value = 48.0
+
+[connection signal="theme_changed" from="." to="." method="_on_theme_changed"]
+[connection signal="mouse_entered" from="term_container" to="term_container" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="term_container" to="term_container" method="_on_mouse_exited"]
+[connection signal="visibility_changed" from="term_container" to="term_container" method="_on_visibility_changed"]
+
+[editable path="term_container/term"]
