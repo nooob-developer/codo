@@ -4,13 +4,13 @@ A lightweight, modern code editor built with the Godot Engine, designed for Linu
 ## Installation
 
 1. Clone the repository:
-  
+  ```
    git clone https://github.com/nooob-developer/codo.git
-   
+  ``` 
 2. Navigate to the project directory:
-  
-   cd codo
-   
+``
+cd codo
+``
 3. Install Godot Engine (version 4.x recommended.
 4. Open the project in Godot and run it.
 5.  For a quick start, download and run the executable from [Releases](https://github.com/nooob-developer/codo/releases) (make sure it’s executable with chmod +x Codo.x86_64).
