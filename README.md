@@ -2,18 +2,19 @@
 A lightweight, modern code editor built with the Godot Engine, designed for Linux users!
 
 ## Installation
-
-1. Clone the repository:
-  ```
-   git clone https://github.com/nooob-developer/codo.git
-  ``` 
-2. Navigate to the project directory:
-``
-cd codo
-``
+### Method 1: Running from Source
+ 1. Clone the repository:
+```
+git clone https://github.com/nooob-developer/codo.git
+```
+2. Navigate to the project directory: ``cd codo``
 3. Install Godot Engine (version 4.x recommended.
 4. Open the project in Godot and run it.
-5.  For a quick start, download and run the executable from [Releases](https://github.com/nooob-developer/codo/releases) (make sure it’s executable with chmod +x Codo.x86_64).
+
+### Method 2: Using Pre-built Executable
+1. For a quick start, download and run the executable from [Releases](https://github.com/nooob-developer/codo/releases)
+2. (it’s executable with ``chmod +x Codo.x86_64`` or AppImage file).
+ > For the x86-64 executable, ensure the terminal library **(libgdterm.so)** from the project's addons folder is copied next to the main program file.
 
 ## Features
 
