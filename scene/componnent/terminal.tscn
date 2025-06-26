@@ -54,11 +54,6 @@ bright_white = Color(0.866667, 0.866667, 0.866667, 1)
 foreground = Color(0.835833, 0.85, 0.6375, 1)
 background = Color(0.0980392, 0.0901961, 0.141176, 1)
 
-[node name="scrollbar" parent="term_container/term" index="2"]
-max_value = 66.0
-page = 18.0
-value = 48.0
-
 [connection signal="theme_changed" from="." to="." method="_on_theme_changed"]
 [connection signal="mouse_entered" from="term_container" to="term_container" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="term_container" to="term_container" method="_on_mouse_exited"]
