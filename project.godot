@@ -15,10 +15,10 @@ config/description="Code Editor with Godot Engine"
 config/version="0.0.1"
 run/main_scene="uid://cbr8s42h4b551"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-boot_splash/bg_color=Color(0.0562916, 0.0562916, 0.0562916, 1)
+boot_splash/bg_color=Color(0.890196, 0.713726, 0.705882, 1)
 boot_splash/image="uid://vxib7ukd4nvr"
 config/icon="res://icon.svg"
-boot_splash/minimum_display_time=500
+boot_splash/minimum_display_time=900
 
 [display]
 
