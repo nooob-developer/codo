@@ -1,5 +1,9 @@
+   
 # Codo
 A lightweight, modern code editor built with the Godot Engine, designed for Linux users!
+
+![codo spalesh3](https://github.com/user-attachments/assets/7ae7436e-043f-46a5-8d49-51629cbdd543)
+
 
 ## Installation
 ### Method 1: Running from Source
