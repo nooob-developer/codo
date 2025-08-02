@@ -1,0 +1,161 @@
+[gd_scene load_steps=23 format=3 uid="uid://doytfwqcc6rsa"]
+
+[ext_resource type="Script" uid="uid://cgd1i6wapfwak" path="res://scene/script/side_button.gd" id="1_jq41y"]
+[ext_resource type="Texture2D" uid="uid://cw5wvdoj76b8l" path="res://assets/icons/new-file-svgrepo-com.svg" id="1_p584g"]
+[ext_resource type="Texture2D" uid="uid://bfen1dmbxmc" path="res://assets/icons/open-external-svgrepo-com.svg" id="2_je4al"]
+[ext_resource type="Texture2D" uid="uid://8c34udih08v5" path="res://assets/icons/Terminal_Frame/terminal_outline_f1.svg" id="3_70ffl"]
+[ext_resource type="Texture2D" uid="uid://dfkuvev1cqipd" path="res://assets/icons/save-svgrepo-com.svg" id="3_v7xmo"]
+[ext_resource type="Texture2D" uid="uid://dumivtp0rbimc" path="res://assets/icons/terminal-outline-svgrepo-com.svg" id="4_jq41y"]
+[ext_resource type="Texture2D" uid="uid://msgs6pdenj22" path="res://assets/icons/Terminal_Frame/terminal_outline_f2.svg" id="7_amxvv"]
+[ext_resource type="Texture2D" uid="uid://bexf5yqlvtvge" path="res://assets/icons/Terminal_Frame/terminal_outline_f3.svg" id="8_iksmt"]
+[ext_resource type="Texture2D" uid="uid://bu0rdqls1dvc1" path="res://assets/icons/Terminal_Frame/terminal_outline_f4.svg" id="9_svdq3"]
+[ext_resource type="Texture2D" uid="uid://da6dt1i7eii4f" path="res://assets/icons/hide.svg" id="9_v7xmo"]
+[ext_resource type="Texture2D" uid="uid://b0hm1tlosnrir" path="res://assets/icons/gear.svg" id="10_jq41y"]
+[ext_resource type="Texture2D" uid="uid://rw84skau3kpi" path="res://assets/icons/Terminal_Frame/terminal_outline_f5.svg" id="10_t35x0"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_s0k88"]
+device = -1
+ctrl_pressed = true
+keycode = 78
+unicode = 110
+
+[sub_resource type="Shortcut" id="Shortcut_iksmt"]
+events = [SubResource("InputEventKey_s0k88")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_mykli"]
+device = -1
+ctrl_pressed = true
+pressed = true
+keycode = 79
+unicode = 111
+
+[sub_resource type="Shortcut" id="Shortcut_svdq3"]
+events = [SubResource("InputEventKey_mykli")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_jq41y"]
+ctrl_pressed = true
+keycode = 83
+
+[sub_resource type="Shortcut" id="Shortcut_t35x0"]
+events = [SubResource("InputEventKey_jq41y")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_nnkte"]
+device = -1
+ctrl_pressed = true
+pressed = true
+keycode = 84
+unicode = 116
+
+[sub_resource type="Shortcut" id="Shortcut_oxoml"]
+events = [SubResource("InputEventKey_nnkte")]
+
+[sub_resource type="Animation" id="Animation_oxoml"]
+resource_name = "OpenTerminal"
+length = 1.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/terminal:texture_pressed")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.29, 0.62, 0.97, 1.34),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("3_70ffl"), ExtResource("7_amxvv"), ExtResource("8_iksmt"), ExtResource("9_svdq3"), ExtResource("10_t35x0")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6qxfp"]
+_data = {
+&"OpenTerminal": SubResource("Animation_oxoml")
+}
+
+[node name="side-bt" type="Control"]
+layout_mode = 3
+anchor_left = 0.008
+anchor_top = 0.881
+anchor_right = 0.102
+anchor_bottom = 0.988
+offset_left = -0.360001
+offset_top = 0.519958
+offset_right = -0.840012
+offset_bottom = -0.0400391
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jq41y")
+
+[node name="VBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.809
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.0350037
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 8
+
+[node name="newfile" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut = SubResource("Shortcut_iksmt")
+texture_normal = ExtResource("1_p584g")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="openfile" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut = SubResource("Shortcut_svdq3")
+texture_normal = ExtResource("2_je4al")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="savefile" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+shortcut = SubResource("Shortcut_t35x0")
+texture_normal = ExtResource("3_v7xmo")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="hide" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+shortcut = SubResource("Shortcut_t35x0")
+texture_normal = ExtResource("9_v7xmo")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="settings" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+shortcut = SubResource("Shortcut_t35x0")
+texture_normal = ExtResource("10_jq41y")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="terminal" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+shortcut = SubResource("Shortcut_oxoml")
+texture_normal = ExtResource("4_jq41y")
+texture_pressed = ExtResource("3_70ffl")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="VBoxContainer"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_6qxfp")
+}
+autoplay = "OpenTerminal"
+speed_scale = 0.538
+
+[connection signal="pressed" from="VBoxContainer/newfile" to="." method="_on_newfile_pressed"]
+[connection signal="pressed" from="VBoxContainer/openfile" to="." method="_on_openfile_pressed"]
+[connection signal="pressed" from="VBoxContainer/savefile" to="." method="_on_savefile_pressed"]
+[connection signal="pressed" from="VBoxContainer/terminal" to="." method="_on_terminal_pressed"]

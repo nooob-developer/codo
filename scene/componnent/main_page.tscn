@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfmj4tb0bklji"]
+
+[sub_resource type="Theme" id="Theme_uf8t1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ji1pr"]
+bg_color = Color(0.156863, 0.172549, 0.203922, 1)
+
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_hojr6"]
+number_color = Color(0.741176, 0.443137, 0.870588, 1)
+symbol_color = Color(0.14902, 0.741176, 0.611765, 1)
+function_color = Color(0.65098, 0.517647, 0.368627, 1)
+member_variable_color = Color(0.960784, 0.580392, 0.556863, 1)
+
+[node name="main_page" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_uf8t1")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ji1pr")
+
+[node name="CodeEdit" type="CodeEdit" parent="Panel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.204
+anchor_top = 0.169
+anchor_right = 0.993
+anchor_bottom = 0.973
+offset_left = -0.680023
+offset_top = -0.52002
+offset_right = 0.439941
+offset_bottom = 0.159912
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/background_color = Color(0.156863, 0.172549, 0.203922, 1)
+theme_override_colors/line_number_color = Color(1, 1, 1, 1)
+theme_override_colors/breakpoint_color = Color(1, 0, 0, 1)
+wrap_mode = 1
+indent_wrapped_lines = true
+scroll_smooth = true
+minimap_draw = true
+caret_mid_grapheme = true
+use_custom_word_separators = true
+syntax_highlighter = SubResource("CodeHighlighter_hojr6")
+highlight_all_occurrences = true
+highlight_current_line = true
+text_direction = 0
+symbol_lookup_on_click = true
+symbol_tooltip_on_hover = true
+line_folding = true
+gutters_draw_breakpoints_gutter = true
+gutters_draw_bookmarks = true
+gutters_draw_executing_lines = true
+gutters_draw_line_numbers = true
+gutters_zero_pad_line_numbers = true
+gutters_draw_fold_gutter = true
+code_completion_enabled = true
+indent_use_spaces = true
+indent_automatic = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true

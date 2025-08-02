@@ -1,7 +1,7 @@
 [gd_resource type="Theme" format=3 uid="uid://dg6omohogcvmn"]
 
 [resource]
-GDTerm/colors/background = Color(0.0980392, 0.0901961, 0.141176, 1)
+GDTerm/colors/background = Color(0.1944, 0.2096, 0.24, 0.843137)
 GDTerm/colors/black = Color(0.89, 0.869975, 0.6497, 1)
 GDTerm/colors/blue = Color(0.8272, 0.8366, 0.94, 1)
 GDTerm/colors/bright_black = Color(0.31802, 0.31802, 0.31802, 1)

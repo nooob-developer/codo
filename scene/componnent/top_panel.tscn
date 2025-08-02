@@ -1,20 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://ye5ospsmopft"]
-
-[ext_resource type="Texture2D" uid="uid://c7hu67mvh7o03" path="res://assets/icons/svg-path.svg" id="1_vgegi"]
-[ext_resource type="Texture2D" uid="uid://dsrjh71ivbl8w" path="res://assets/icons/plus-circle.svg" id="2_r47ib"]
-[ext_resource type="Texture2D" uid="uid://cadxmacov0nr" path="res://assets/icons/bs-person-fill-add.svg" id="3_chmpv"]
+[gd_scene load_steps=2 format=3 uid="uid://ye5ospsmopft"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a3cd1"]
-bg_color = Color(0.0980392, 0.0901961, 0.141176, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-shadow_color = Color(0.223529, 0.207843, 0.321569, 1)
-shadow_size = 9
+bg_color = Color(0.129412, 0.145098, 0.168627, 1)
 anti_aliasing_size = 5.835
 
-[node name="VBoxContainer" type="VBoxContainer"]
+[node name="top_bar" type="Panel"]
+anchors_preset = -1
+anchor_right = 0.998
+anchor_bottom = 0.089
+offset_right = -0.160034
+offset_bottom = 5.685
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_a3cd1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.28
 anchor_top = 0.021
@@ -24,76 +24,3 @@ offset_left = -0.599976
 offset_top = 0.319998
 offset_right = -0.0800781
 offset_bottom = 0.0800018
-
-[node name="Panel3" type="Panel" parent="."]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_a3cd1")
-
-[node name="TextureButton" type="TextureButton" parent="Panel3"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.886
-anchor_top = 0.25
-anchor_right = 0.919
-anchor_bottom = 0.726
-offset_left = 0.412964
-offset_right = 0.175903
-offset_bottom = 0.0159988
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("1_vgegi")
-stretch_mode = 0
-
-[node name="TextureButton2" type="TextureButton" parent="Panel3"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.94
-anchor_top = 0.25
-anchor_right = 0.972
-anchor_bottom = 0.726
-offset_left = 0.206909
-offset_top = 1.0
-offset_right = 0.158936
-offset_bottom = 0.0159988
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("1_vgegi")
-stretch_mode = 0
-flip_h = true
-
-[node name="TextureButton3" type="TextureButton" parent="Panel3"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.025
-anchor_top = 0.137
-anchor_right = 1.073
-anchor_bottom = 0.815
-offset_left = -0.225098
-offset_top = -0.00800037
-offset_right = -0.297119
-offset_bottom = 0.0399933
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("2_r47ib")
-
-[node name="TextureButton4" type="TextureButton" parent="Panel3"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.094
-anchor_top = 0.137
-anchor_right = 1.142
-anchor_bottom = 0.815
-offset_left = -0.266113
-offset_top = 1.992
-offset_right = -0.338135
-offset_bottom = 2.03999
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("3_chmpv")
-
-[node name="top_panel" type="Control" parent="."]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://8c34udih08v5"
-path="res://.godot/imported/terminal_outline_f1.svg-abbc741486478f45134004b90f7ddbb3.ctex"
+path="res://.godot/imported/terminal_outline_f1.svg-680bb572bce906b59865ffa7959313f7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/terminal_outline_f1.svg"
-dest_files=["res://.godot/imported/terminal_outline_f1.svg-abbc741486478f45134004b90f7ddbb3.ctex"]
+source_file="res://assets/icons/Terminal_Frame/terminal_outline_f1.svg"
+dest_files=["res://.godot/imported/terminal_outline_f1.svg-680bb572bce906b59865ffa7959313f7.ctex"]
 
 [params]
 

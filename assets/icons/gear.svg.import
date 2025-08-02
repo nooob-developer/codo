@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bu0rdqls1dvc1"
-path="res://.godot/imported/terminal_outline_f4.svg-3e4c13fa0d2013bc249242c0d04d7ddb.ctex"
+uid="uid://b0hm1tlosnrir"
+path="res://.godot/imported/gear.svg-d7094e6c052e72829e59879c7945ac07.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/terminal_outline_f4.svg"
-dest_files=["res://.godot/imported/terminal_outline_f4.svg-3e4c13fa0d2013bc249242c0d04d7ddb.ctex"]
+source_file="res://assets/icons/gear.svg"
+dest_files=["res://.godot/imported/gear.svg-d7094e6c052e72829e59879c7945ac07.ctex"]
 
 [params]
 

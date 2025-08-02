@@ -1,7 +1,57 @@
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#deddda">
-<g id="SVGRepo_bgCarrier" stroke-width="0"/>
-<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-<g id="SVGRepo_iconCarrier"> <title>open-external</title> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="icon" fill="#deddda" transform="translate(85.333333, 64.000000)"> <path d="M128,63.999444 L128,106.666444 L42.6666667,106.666667 L42.6666667,320 L256,320 L256,234.666444 L298.666,234.666444 L298.666667,362.666667 L4.26325641e-14,362.666667 L4.26325641e-14,64 L128,63.999444 Z M362.666667,1.42108547e-14 L362.666667,170.666667 L320,170.666667 L320,72.835 L143.084945,249.751611 L112.915055,219.581722 L289.83,42.666 L192,42.6666667 L192,1.42108547e-14 L362.666667,1.42108547e-14 Z" id="Combined-Shape"> </path> </g> </g> </g>
-</svg>
+
+<svg
+   width="800"
+   height="800"
+   viewBox="0 0 512 512"
+   version="1.1"
+   fill="#deddda"
+   id="svg1"
+   sodipodi:docname="open-external-svgrepo-com.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="512"
+       height="512"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <g
+     id="SVGRepo_iconCarrier"
+     transform="matrix(1.3593766,0,0,1.3593766,-106.50044,-77.500404)">
+    <title
+       id="title1">open-external</title>
+    <g
+       id="Page-1"
+       stroke="none"
+       stroke-width="1"
+       fill="none"
+       fill-rule="evenodd">
+      <g
+         id="icon"
+         fill="#deddda"
+         transform="translate(85.333333,64)">
+        <path
+           d="m 128,63.999444 v 42.666996 l -85.333333,2.3e-4 V 320 H 256 v -85.33356 h 42.666 l 6.7e-4,128.00023 H 0 V 64 Z M 362.66667,0 V 170.66667 H 320 V 72.835 L 143.08494,249.75161 112.91505,219.58172 289.83,42.666 192,42.666667 V 0 Z"
+           id="Combined-Shape" />
+      </g>
+    </g>
+  </g>
+</svg>

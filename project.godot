@@ -34,4 +34,6 @@ enabled=PackedStringArray("res://addons/gdterm/plugin.cfg")
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/anisotropic_filtering_level=3
+textures/decals/filter=5
 anti_aliasing/quality/screen_space_aa=1
