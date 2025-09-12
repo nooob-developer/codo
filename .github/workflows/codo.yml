@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CodoBuilder
+name: CI
 
 # Controls when the workflow will run
 on:
@@ -24,7 +24,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
-      - name: Builer
+      - name: CodoBuilder
       - uses: firebelley/godot-export@v7.0.0
         with: 
              godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/4.4.1-stable/Godot_v4.4.1-stable_linux.x86_64.zip
