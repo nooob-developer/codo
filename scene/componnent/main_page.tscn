@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://cfmj4tb0bklji"]
+[gd_scene load_steps=5 format=3 uid="uid://cfmj4tb0bklji"]
+
+[ext_resource type="FontFile" uid="uid://dxv1pucw183gq" path="res://assets/CascadiaCode-VariableFont_wght.ttf" id="1_hojr6"]
 
 [sub_resource type="Theme" id="Theme_uf8t1"]
 
@@ -44,6 +46,7 @@ offset_bottom = 0.159912
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/background_color = Color(0.156863, 0.172549, 0.203922, 1)
+theme_override_fonts/font = ExtResource("1_hojr6")
 theme_override_colors/line_number_color = Color(1, 1, 1, 1)
 theme_override_colors/breakpoint_color = Color(1, 0, 0, 1)
 wrap_mode = 1

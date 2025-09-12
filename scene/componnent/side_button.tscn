@@ -1,12 +1,12 @@
-[gd_scene load_steps=23 format=3 uid="uid://doytfwqcc6rsa"]
+[gd_scene load_steps=24 format=3 uid="uid://doytfwqcc6rsa"]
 
 [ext_resource type="Script" uid="uid://cgd1i6wapfwak" path="res://scene/script/side_button.gd" id="1_jq41y"]
 [ext_resource type="Texture2D" uid="uid://cw5wvdoj76b8l" path="res://assets/icons/new-file-svgrepo-com.svg" id="1_p584g"]
 [ext_resource type="Texture2D" uid="uid://bfen1dmbxmc" path="res://assets/icons/open-external-svgrepo-com.svg" id="2_je4al"]
 [ext_resource type="Texture2D" uid="uid://8c34udih08v5" path="res://assets/icons/Terminal_Frame/terminal_outline_f1.svg" id="3_70ffl"]
 [ext_resource type="Texture2D" uid="uid://dfkuvev1cqipd" path="res://assets/icons/save-svgrepo-com.svg" id="3_v7xmo"]
-[ext_resource type="Texture2D" uid="uid://dumivtp0rbimc" path="res://assets/icons/terminal-outline-svgrepo-com.svg" id="4_jq41y"]
 [ext_resource type="Texture2D" uid="uid://msgs6pdenj22" path="res://assets/icons/Terminal_Frame/terminal_outline_f2.svg" id="7_amxvv"]
+[ext_resource type="Texture2D" uid="uid://bxafvsw7redxe" path="res://assets/icons/Terminal_Frame/SVGRepo_iconCarrier.svg" id="7_jq41y"]
 [ext_resource type="Texture2D" uid="uid://bexf5yqlvtvge" path="res://assets/icons/Terminal_Frame/terminal_outline_f3.svg" id="8_iksmt"]
 [ext_resource type="Texture2D" uid="uid://bu0rdqls1dvc1" path="res://assets/icons/Terminal_Frame/terminal_outline_f4.svg" id="9_svdq3"]
 [ext_resource type="Texture2D" uid="uid://da6dt1i7eii4f" path="res://assets/icons/hide.svg" id="9_v7xmo"]
@@ -33,11 +33,16 @@ unicode = 111
 events = [SubResource("InputEventKey_mykli")]
 
 [sub_resource type="InputEventKey" id="InputEventKey_jq41y"]
+device = -1
 ctrl_pressed = true
 keycode = 83
+unicode = 115
+
+[sub_resource type="Shortcut" id="Shortcut_4a72t"]
+events = [SubResource("InputEventKey_jq41y")]
 
 [sub_resource type="Shortcut" id="Shortcut_t35x0"]
-events = [SubResource("InputEventKey_jq41y")]
+events = [null]
 
 [sub_resource type="InputEventKey" id="InputEventKey_nnkte"]
 device = -1
@@ -117,7 +122,7 @@ stretch_mode = 5
 [node name="savefile" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-shortcut = SubResource("Shortcut_t35x0")
+shortcut = SubResource("Shortcut_4a72t")
 texture_normal = ExtResource("3_v7xmo")
 ignore_texture_size = true
 stretch_mode = 5
@@ -142,7 +147,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 shortcut = SubResource("Shortcut_oxoml")
-texture_normal = ExtResource("4_jq41y")
+texture_normal = ExtResource("7_jq41y")
 texture_pressed = ExtResource("3_70ffl")
 ignore_texture_size = true
 stretch_mode = 5

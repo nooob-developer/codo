@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Codo
+GenericName=Code Editor
+Comment=code editor with Godot
+Exec=Codo
+Icon=codo-icon
+Terminal=false
+Type=Application
+Categories=Development;IDE;TextEditor;
+StartupNotify=true
+

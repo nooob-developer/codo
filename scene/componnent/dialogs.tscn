@@ -19,10 +19,12 @@ unique_name_in_owner = true
 transparent_bg = true
 title = "Open a File"
 position = Vector2i(970, 350)
+borderless = true
+transparent = true
 ok_button_text = "Open"
 file_mode = 0
 access = 2
-filters = PackedStringArray("*.txt", "*.html", "*.md", "*.gd", "*.py")
+filters = PackedStringArray("*.txt", "*.html", "*.md", "*.gd", "*.py", "*.dart", "*.yaml")
 show_hidden_files = true
 use_native_dialog = true
 
