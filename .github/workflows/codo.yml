@@ -53,144 +53,97 @@ jobs:
 
       - name: Prepare AppDir structure
         run: |
-          mkdir -p AppDir/usr/bin
-          mkdir -p AppDir/usr/lib
-          mkdir -p AppDir/usr/share/applications
+          mkdir -p AppDir/usr/bin AppDir/usr/lib AppDir/usr/share/applications
           mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
           mkdir -p AppDir/usr/share/icons/hicolor/512x512/apps
+
           cp build/Codo/Codo.x86_64 AppDir/usr/bin/
           chmod +x AppDir/usr/bin/Codo.x86_64
+
           if [ -f "addons/gdterm/bin/libgdterm.linux.template_release.x86_64.so" ]; then
             cp addons/gdterm/bin/libgdterm.linux.template_release.x86_64.so AppDir/usr/lib/
-            echo "Added gdterm library to AppDir"
-          else
-            echo "Warning: libgdterm.so not found."
           fi
+
           cp packaging/codo.desktop AppDir/usr/share/applications/
           cp packaging/codo-icon.png AppDir/usr/share/icons/hicolor/256x256/apps/
           cp packaging/codo-icon.png AppDir/usr/share/icons/hicolor/512x512/apps/
-          cat > AppDir/AppRun << 'EOF'
-          #!/bin/bash
-          USER_PWD="$PWD"
-          export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
-          cd "$USER_PWD"
-          exec "$APPDIR/usr/bin/Codo.x86_64" "$@"
-          EOF
+
+          cat > AppDir/AppRun <<'EOF'
+#!/bin/bash
+USER_PWD="$PWD"
+export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
+cd "$USER_PWD"
+exec "$APPDIR/usr/bin/Codo.x86_64" "$@"
+EOF
           chmod +x AppDir/AppRun
           cp AppDir/usr/share/applications/codo.desktop AppDir/
           cp packaging/codo-icon.png AppDir/
 
       - name: Verify AppDir structure
         run: |
-          echo "AppDir structure:"
           find AppDir -type f -exec ls -la {} \;
-          echo ""
-          echo "Desktop file content:"
           cat AppDir/codo.desktop
-          echo ""
-          echo "AppRun content:"
           head -20 AppDir/AppRun
 
-      - name: Build AppImage with linuxdeploy - FIXED VERSION
-
-run: |
+      - name: Build AppImage
+        run: |
           export OUTPUT="Codo-x86_64.AppImage"
           ./linuxdeploy-x86_64.AppImage --appdir AppDir --plugin appimage --output appimage -v 0
-          echo "Files in current directory after linuxdeploy:"
-          ls -la *.AppImage* || echo "No AppImage files found!"
-          ls -la Codo* || echo "No Codo files found!"
           APPIMAGE_FILE=""
           if [ -f "Codo-x86_64.AppImage" ]; then
             APPIMAGE_FILE="Codo-x86_64.AppImage"
           elif [ -f "Codo.AppImage" ]; then
             APPIMAGE_FILE="Codo.AppImage"
-          elif [ -f *.AppImage ]; then
+          elif ls *.AppImage 1> /dev/null 2>&1; then
             APPIMAGE_FILE=$(ls *.AppImage | head -1)
           fi
-          if [ -n "$APPIMAGE_FILE" ] && [ -f "$APPIMAGE_FILE" ]; then
-            echo "✅ Found AppImage: $APPIMAGE_FILE"
+          if [ -n "$APPIMAGE_FILE" ]; then
             chmod +x "$APPIMAGE_FILE"
             mkdir -p build/releases
             mv "$APPIMAGE_FILE" build/releases/Codo.AppImage
-            chmod +x build/releases/Codo.AppImage
-            echo "✅ AppImage created successfully: $(ls -lh build/releases/Codo.AppImage)"
           else
             echo "❌ ERROR: No AppImage file found after build!"
-            echo "Available files:"
-            ls -la
             exit 1
           fi
-          
-          - name: Create Uncompressed Portable Version
-          run: |
-          echo "Creating uncompressed portable version..."
+
+      - name: Create Uncompressed Portable Version
+        run: |
           mkdir -p build/releases/Codo-Portable-Linux
           cp -r AppDir/* build/releases/Codo-Portable-Linux/
-          cat > build/releases/Codo-Portable-Linux/run.sh << 'EOF'
-          #!/bin/bash
-          DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-          export LD_LIBRARY_PATH="$DIR/usr/lib:$LD_LIBRARY_PATH"
-          cd "$PWD"
-          exec "$DIR/usr/bin/Codo.x86_64" "$@"
-          EOF
+          cat > build/releases/Codo-Portable-Linux/run.sh <<'EOF'
+#!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export LD_LIBRARY_PATH="$DIR/usr/lib:$LD_LIBRARY_PATH"
+cd "$PWD"
+exec "$DIR/usr/bin/Codo.x86_64" "$@"
+EOF
           chmod +x build/releases/Codo-Portable-Linux/run.sh
           chmod +x build/releases/Codo-Portable-Linux/usr/bin/Codo.x86_64
-          cat > build/releases/Codo-Portable-Linux/install.sh << 'EOF'
-          #!/bin/bash
-          echo "Installing Codo to system..."
-          sudo cp usr/bin/Codo.x86_64 /usr/local/bin/codo
-          sudo chmod +x /usr/local/bin/codo
-          sudo cp usr/lib/*.so /usr/local/lib/ 2>/dev/null || true
-          sudo cp codo.desktop /usr/share/applications/
-          sudo cp -r usr/share/icons/* /usr/share/icons/
-          sudo update-desktop-database 2>/dev/null || true
-          echo "✅ Installation complete! You can now run 'codo' from anywhere."
-          EOF
+          cat > build/releases/Codo-Portable-Linux/install.sh <<'EOF'
+#!/bin/bash
+sudo cp usr/bin/Codo.x86_64 /usr/local/bin/codo
+sudo chmod +x /usr/local/bin/codo
+sudo cp usr/lib/*.so /usr/local/lib/ 2>/dev/null || true
+sudo cp codo.desktop /usr/share/applications/
+sudo cp -r usr/share/icons/* /usr/share/icons/
+sudo update-desktop-database 2>/dev/null || true
+EOF
           chmod +x build/releases/Codo-Portable-Linux/install.sh
-          echo "✅ Portable version created"
 
-      - name: Verify all build outputs
-        run: |
-          echo "Final build outputs:"
-          ls -la build/releases/
-          echo ""
-          echo "Portable directory contents:"
-          ls -la build/releases/Codo-Portable-Linux/
-          echo ""
-          echo "Testing executables..."
-          file build/releases/Codo.x86_64 || echo "Standard binary not found"
-          file build/releases/codo || echo "Bundled binary not found"
-          file build/releases/Codo.AppImage || echo "AppImage not found"
-          file build/releases/Codo-Portable-Linux/usr/bin/Codo.x86_64 || echo "Portable binary not found"
-          echo ""
-          echo "Checking if files are executable..."
-          if [ -x "build/releases/Codo.AppImage" ]; then
-            echo "✅ AppImage is executable"
-          else
-            echo "❌ AppImage is not executable"
-          fi
-          if [ -x "build/releases/Codo-Portable-Linux/run.sh" ]; then
-            echo "✅ Portable run script is executable"
-          else
-            echo "❌ Portable run script is not executable"
-          fi
-
-      - name: Upload AppImage artifact
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Codo-AppImage
           path: build/releases/Codo.AppImage
           compression-level: 0
 
-      - name: Upload x86_64 binary artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: Codo-x86_64-Binary
           path: build/releases/Codo.x86_64
           compression-level: 0
 
-- name: Upload bundled binary artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: Codo-Bundled-Binary
           path: |
@@ -199,8 +152,7 @@ run: |
             build/releases/libgdterm.linux.template_release.x86_64.so
           compression-level: 0
 
-      - name: Upload Portable Version (Uncompressed)
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: Codo-Portable-Linux
           path: build/releases/Codo-Portable-Linux/
@@ -211,11 +163,9 @@ run: |
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           path: ./artifacts/
 
@@ -227,28 +177,28 @@ run: |
           chmod +x release-files/Codo.x86_64 2>/dev/null || true
           chmod +x release-files/codo 2>/dev/null || true
           chmod +x release-files/codo-wrapper 2>/dev/null || true
-          cat > release-files/README.md << 'EOF'
-          # Codo - Code Editor Release Files
-          ls -la release-files/
-          echo "Release files prepared successfully"
-          EOF
+          cat > release-files/README.md <<'EOF'
+# Codo - Code Editor Release Files
+ls -la release-files/
+echo "Release files prepared successfully"
+EOF
 
       - name: Create tarball for portable version
         run: |
-          cd artifacts/Codo-Portable-Linux/
-          tar -czf ../../release-files/Codo-Portable-Linux.tar.gz .
-          cd ../../
+          if [ -d artifacts/Codo-Portable-Linux ]; then
+            cd artifacts/Codo-Portable-Linux/
+            tar -czf ../../release-files/Codo-Portable-Linux.tar.gz .
+            cd ../../
+          fi
 
-      - name: Bump version and push tag
-        id: tagger
+      - id: tagger
         uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: patch
           release_branches: main
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tagger.outputs.new_tag }}
           name: "Codo Release ${{ steps.tagger.outputs.new_tag }}"
