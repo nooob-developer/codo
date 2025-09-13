@@ -1,4 +1,4 @@
-name: Build and Release Godot Linux
+name: Build and Release Godot Linux AppImage
 
 on:
   push:
