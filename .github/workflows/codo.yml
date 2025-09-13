@@ -36,7 +36,7 @@ jobs:
           mkdir -p AppDir/usr/share/applications
           mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
 
-          cp build/* AppDir/usr/bin/
+          cp build/Codo/Codo.x86_64 AppDir/usr/bin/
           cp packaging/codo.desktop AppDir/usr/share/applications/
           cp packaging/codo-icon.png AppDir/usr/share/icons/hicolor/256x256/apps/
 
