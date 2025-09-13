@@ -60,8 +60,8 @@ jobs:
           # Copy the required library (you'll need to ensure this file exists)
           # If this file is in your repository, adjust the path accordingly
           # For now, creating a placeholder - replace with actual file location
-          if [ -f "addons/godot_xterm/native/bin/libgdterm.linux.template_release.x86_64.so" ]; then
-            cp addons/godot_xterm/native/bin/libgdterm.linux.template_release.x86_64.so AppDir/usr/lib/
+          if [ -f "addons/gdterm/bin/libgdterm.linux.template_release.x86_64.so" ]; then
+            cp addons/gdterm/bin/libgdterm.linux.template_release.x86_64.so AppDir/usr/lib/
           else
             echo "Warning: libgdterm.so not found. Please ensure it's available in your repository."
           fi
