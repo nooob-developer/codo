@@ -1,11 +1,13 @@
 [Desktop Entry]
+Version=1.0
+Type=Application
 Name=Codo
 GenericName=Code Editor
-Comment=code editor with Godot
-Exec=Codo
+Comment=Modern code editor with Godot integration
+Exec=Codo.x86_64
 Icon=codo-icon
 Terminal=false
-Type=Application
 Categories=Development;IDE;TextEditor;
+Keywords=editor;development;code;programming;
 StartupNotify=true
-
+MimeType=text/plain;text/x-csrc;text/x-c++src;application/x-godot-project;
