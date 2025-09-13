@@ -130,8 +130,8 @@ jobs:
           export OUTPUT="Codo-x86_64.AppImage"
           
           # Run linuxdeploy with explicit output naming
-          ./linuxdeploy-x86_64.AppImage --appdir AppDir --plugin appimage --output appimage --verbose
-          
+          ./linuxdeploy-x86_64.AppImage --appdir AppDir --plugin appimage --output appimage -v 0
+
           # Debug: List all files created
           echo "Files in current directory after linuxdeploy:"
           ls -la *.AppImage* || echo "No AppImage files found!"
