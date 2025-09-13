@@ -15,22 +15,46 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Export Godot Project
-        uses: firebelley/godot-export@v7.0.0
-        with: 
-          godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/4.4.1-stable/Godot_v4.4.1-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://github.com/godotengine/godot-builds/releases/download/4.4.1-stable/Godot_v4.4.1-stable_export_templates.tpz
-          relative_project_path: ./
-          relative_export_path: build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup Godot
+        uses: firebelley/setup-godot@v2
+        with:
+          version: 4.4.1
+          use-dotnet: false
+          export-templates: true
 
-      - name: Prepare Linux Desktop entry
+      - name: Export Godot Project
+        run: |
+          mkdir -p build
+          godot --headless --verbose --path ./ --export-release "Linux/X11" build/Codo.x86_64
+
+      - name: Prepare AppDir
         run: |
           mkdir -p AppDir/usr/bin
-          cp build/* AppDir/usr/bin/
-          cp packaging/codo.desktop AppDir/
-          cp packaging/codo-icon.png AppDir/
+          mkdir -p AppDir/usr/lib
+          mkdir -p AppDir/usr/share/applications
+          mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
+
+          if [ -f build/Codo.x86_64 ]; then
+            cp build/Codo.x86_64 AppDir/usr/bin/
+          else
+            cp -r build/* AppDir/usr/bin/ || true
+          fi
+
+          if [ -f addons/gdterm/bin/libgdterm.linux.template_release.x86_64.so ]; then
+            cp addons/gdterm/bin/libgdterm.linux.template_release.x86_64.so AppDir/usr/lib/
+          fi
+
+          cp packaging/codo.desktop AppDir/ || true
+          cp packaging/codo-icon.png AppDir/ || true
+          cp packaging/codo.desktop AppDir/usr/share/applications/ || true
+          cp packaging/codo-icon.png AppDir/usr/share/icons/hicolor/256x256/apps/ || true
+
+          cat > AppDir/AppRun <<'EOF'
+          #!/bin/bash
+          HERE="$(dirname "$(readlink -f "$0")")"
+          exec "$HERE/usr/bin/Codo.x86_64" "$@"
+          EOF
+          chmod +x AppDir/AppRun
 
       - name: Build AppImage
         uses: AppImageCrafters/build-appimage@v1
@@ -38,24 +62,28 @@ jobs:
           appdir: AppDir
           output: build/Codo.AppImage
 
+      - name: Upload Artifact (develop only)
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Codo-AppImage
+          path: build/Codo.AppImage
+
       - name: Bump version and push tag
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name == 'pull_request'
         id: tagger
         uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: patch
           release_branches: main
-          custom_tag: v0.0.1
 
       - name: Create Release
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name == 'pull_request'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tagger.outputs.new_tag }}
           name: "Release ${{ steps.tagger.outputs.new_tag }}"
-          files: |
-            build/**
+          files: build/**
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
