@@ -45,6 +45,42 @@ jobs:
           cp linuxdeploy-plugin-appimage-x86_64.AppImage ~/bin/linuxdeploy-plugin-appimage
           echo "$HOME/bin" >> $GITHUB_PATH
 
+      - name: Prepare build outputs
+        run: |
+          # Create output directory
+          mkdir -p build/releases
+          
+          # Copy the base executable
+          cp build/Codo/Codo.x86_64 build/releases/Codo.x86_64
+          chmod +x build/releases/Codo.x86_64
+          
+          # Create a bundled executable with library
+          cp build/Codo/Codo.x86_64 build/releases/codo
+          chmod +x build/releases/codo
+          
+          # Find and copy the gdterm library
+          if [ -f "addons/gdterm/bin/libgdterm.linux.template_release.x86_64.so" ]; then
+            cp addons/gdterm/bin/libgdterm.linux.template_release.x86_64.so build/releases/
+            echo "Found gdterm library at addons/gdterm/bin/"
+          else
+            echo "Warning: libgdterm.so not found. Checking other possible locations..."
+            find . -name "*libgdterm*" -type f
+          fi
+          
+          # Create a wrapper script for the bundled version
+          cat > build/releases/codo-wrapper << 'EOF'
+          #!/bin/bash
+          # Get the directory where this script is located
+          SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+          
+          # Set library path to include our bundled library
+          export LD_LIBRARY_PATH="$SCRIPT_DIR:$LD_LIBRARY_PATH"
+          
+          # Run the actual executable from the same directory
+          exec "$SCRIPT_DIR/codo" "$@"
+          EOF
+          chmod +x build/releases/codo-wrapper
+
       - name: Prepare AppDir structure
         run: |
           # Create the AppDir structure
@@ -52,32 +88,37 @@ jobs:
           mkdir -p AppDir/usr/lib
           mkdir -p AppDir/usr/share/applications
           mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
+          mkdir -p AppDir/usr/share/icons/hicolor/512x512/apps
           
           # Copy the Godot executable
           cp build/Codo/Codo.x86_64 AppDir/usr/bin/
           chmod +x AppDir/usr/bin/Codo.x86_64
           
-          # Copy the required library (you'll need to ensure this file exists)
-          # If this file is in your repository, adjust the path accordingly
-          # For now, creating a placeholder - replace with actual file location
+          # Copy the required library
           if [ -f "addons/gdterm/bin/libgdterm.linux.template_release.x86_64.so" ]; then
             cp addons/gdterm/bin/libgdterm.linux.template_release.x86_64.so AppDir/usr/lib/
+            echo "Added gdterm library to AppDir"
           else
-            echo "Warning: libgdterm.so not found. Please ensure it's available in your repository."
+            echo "Warning: libgdterm.so not found."
           fi
           
-          # Copy desktop file and icon
+          # Copy desktop file and icons to proper locations
           cp packaging/codo.desktop AppDir/usr/share/applications/
           cp packaging/codo-icon.png AppDir/usr/share/icons/hicolor/256x256/apps/
+          cp packaging/codo-icon.png AppDir/usr/share/icons/hicolor/512x512/apps/
           
-          # Create AppRun launcher script
+          # Create proper AppRun launcher script that handles working directory correctly
           cat > AppDir/AppRun << 'EOF'
-          #!/bin/sh
+          #!/bin/bash
+          
+          # Get the current working directory where user ran the AppImage
+          USER_PWD="$PWD"
+          
           # Set up library path to include our custom libraries
           export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
           
-          # Change to the AppImage mount point
-          cd "$APPDIR"
+          # Keep the working directory as where user ran the AppImage
+          cd "$USER_PWD"
           
           # Execute the main application
           exec "$APPDIR/usr/bin/Codo.x86_64" "$@"
@@ -94,33 +135,59 @@ jobs:
           find AppDir -type f -exec ls -la {} \;
 
       - name: Build AppImage with linuxdeploy
-        run: |
-          # Create output directory
-          mkdir -p build
-          
+        run: |          
           # Use linuxdeploy to create the AppImage
           linuxdeploy --appdir AppDir --output appimage
           
           # Move the resulting AppImage to build directory with proper name
-          mv Codo*.AppImage build/Codo.AppImage
-
-      - name: Verify AppImage creation
-        run: |
-          ls -la build/
-          if [ -f "build/Codo.AppImage" ]; then
-            echo "AppImage created successfully"
-            chmod +x build/Codo.AppImage
-            file build/Codo.AppImage
+          if [ -f "Codo*.AppImage" ]; then
+            mv Codo*.AppImage build/releases/Codo.AppImage
+            chmod +x build/releases/Codo.AppImage
           else
-            echo "ERROR: AppImage not found"
+            echo "ERROR: AppImage not created"
             exit 1
           fi
 
-      - name: Upload artifact
+      - name: Verify all build outputs
+        run: |
+          echo "Final build outputs:"
+          ls -la build/releases/
+          
+          echo ""
+          echo "Testing executables..."
+          file build/releases/Codo.x86_64
+          file build/releases/codo
+          file build/releases/Codo.AppImage
+          
+          echo ""
+          echo "Checking if AppImage is executable..."
+          if [ -x "build/releases/Codo.AppImage" ]; then
+            echo "✓ AppImage is executable"
+          else
+            echo "✗ AppImage is not executable"
+          fi
+
+      - name: Upload AppImage artifact
         uses: actions/upload-artifact@v4
         with:
           name: Codo-AppImage
-          path: build/Codo.AppImage
+          path: build/releases/Codo.AppImage
+
+      - name: Upload x86_64 binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Codo-x86_64-Binary
+          path: |
+            build/releases/Codo.x86_64
+
+      - name: Upload bundled binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Codo-Bundled-Binary
+          path: |
+            build/releases/codo
+            build/releases/codo-wrapper
+            build/releases/libgdterm.linux.template_release.x86_64.so
 
   release:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -130,11 +197,60 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download artifact
+      - name: Download AppImage artifact
         uses: actions/download-artifact@v4
         with:
           name: Codo-AppImage
-          path: .
+          path: ./release-files/
+
+      - name: Download x86_64 binary artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Codo-x86_64-Binary
+          path: ./release-files/
+
+      - name: Download bundled binary artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Codo-Bundled-Binary
+          path: ./release-files/
+
+      - name: Prepare release files
+        run: |
+          cd release-files
+          
+          # Make sure all files are executable
+          chmod +x Codo.AppImage
+          chmod +x Codo.x86_64
+          chmod +x codo
+          chmod +x codo-wrapper
+          
+          # Create a README for the release
+          cat > README.txt << 'EOF'
+          Codo - Code Editor Release Files
+          
+          This release contains multiple formats of the Codo application:
+          
+          1. Codo.AppImage - Portable AppImage format (recommended)
+             - Double-click to run or use: ./Codo.AppImage
+             - Contains all dependencies bundled
+          
+          2. Codo.x86_64 - Standard Linux binary
+             - Requires libgdterm.linux.template_release.x86_64.so in the same directory
+             - Use: ./Codo.x86_64
+          
+          3. codo + codo-wrapper - Bundled binary with wrapper script
+             - Use the wrapper: ./codo-wrapper
+             - Automatically handles library dependencies
+          
+          4. libgdterm.linux.template_release.x86_64.so - Required library
+             - Needed for options 2 and 3 above
+          
+          For most users, we recommend using the .AppImage file.
+          EOF
+          
+          ls -la
+          echo "Release files prepared successfully"
 
       - name: Bump version and push tag
         id: tagger
@@ -148,8 +264,13 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tagger.outputs.new_tag }}
-          name: "Release ${{ steps.tagger.outputs.new_tag }}"
+          name: "Codo Release ${{ steps.tagger.outputs.new_tag }}"
+          body_path: ./release-files/README.txt
           files: |
-            Codo.AppImage
+            release-files/Codo.AppImage
+            release-files/Codo.x86_64
+            release-files/codo
+            release-files/codo-wrapper
+            release-files/libgdterm.linux.template_release.x86_64.so
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
