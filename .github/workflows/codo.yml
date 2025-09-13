@@ -45,9 +45,8 @@ jobs:
           chmod +x build/releases/codo
           if [ -f "addons/gdterm/bin/libgdterm.linux.template_release.x86_64.so" ]; then
             cp addons/gdterm/bin/libgdterm.linux.template_release.x86_64.so build/releases/
-            echo "Found gdterm library at addons/gdterm/bin/"
           else
-            echo "Warning: libgdterm.so not found. Checking other possible locations..."
+            echo "Warning: libgdterm.so not found. Searching..."
             find . -name "*libgdterm*" -type f
           fi
 
@@ -68,14 +67,14 @@ jobs:
           cp packaging/codo-icon.png AppDir/usr/share/icons/hicolor/256x256/apps/
           cp packaging/codo-icon.png AppDir/usr/share/icons/hicolor/512x512/apps/
 
-          cat > AppDir/AppRun <<'EOF'
-#!/bin/bash
-USER_PWD="$PWD"
-export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
-cd "$USER_PWD"
-exec "$APPDIR/usr/bin/Codo.x86_64" "$@"
-EOF
+          # Create AppRun launcher
+          echo '#!/bin/bash' > AppDir/AppRun
+          echo 'USER_PWD="$PWD"' >> AppDir/AppRun
+          echo 'export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"' >> AppDir/AppRun
+          echo 'cd "$USER_PWD"' >> AppDir/AppRun
+          echo 'exec "$APPDIR/usr/bin/Codo.x86_64" "$@"' >> AppDir/AppRun
           chmod +x AppDir/AppRun
+
           cp AppDir/usr/share/applications/codo.desktop AppDir/
           cp packaging/codo-icon.png AppDir/
 
@@ -89,6 +88,7 @@ EOF
         run: |
           export OUTPUT="Codo-x86_64.AppImage"
           ./linuxdeploy-x86_64.AppImage --appdir AppDir --plugin appimage --output appimage -v 0
+
           APPIMAGE_FILE=""
           if [ -f "Codo-x86_64.AppImage" ]; then
             APPIMAGE_FILE="Codo-x86_64.AppImage"
@@ -97,12 +97,13 @@ EOF
           elif ls *.AppImage 1> /dev/null 2>&1; then
             APPIMAGE_FILE=$(ls *.AppImage | head -1)
           fi
+
           if [ -n "$APPIMAGE_FILE" ]; then
             chmod +x "$APPIMAGE_FILE"
             mkdir -p build/releases
             mv "$APPIMAGE_FILE" build/releases/Codo.AppImage
           else
-            echo "❌ ERROR: No AppImage file found after build!"
+            echo "❌ ERROR: No AppImage found!"
             exit 1
           fi
 
@@ -110,24 +111,24 @@ EOF
         run: |
           mkdir -p build/releases/Codo-Portable-Linux
           cp -r AppDir/* build/releases/Codo-Portable-Linux/
-          cat > build/releases/Codo-Portable-Linux/run.sh <<'EOF'
-#!/bin/bash
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-export LD_LIBRARY_PATH="$DIR/usr/lib:$LD_LIBRARY_PATH"
-cd "$PWD"
-exec "$DIR/usr/bin/Codo.x86_64" "$@"
-EOF
+
+          # run.sh
+          echo '#!/bin/bash' > build/releases/Codo-Portable-Linux/run.sh
+          echo 'DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"' >> build/releases/Codo-Portable-Linux/run.sh
+          echo 'export LD_LIBRARY_PATH="$DIR/usr/lib:$LD_LIBRARY_PATH"' >> build/releases/Codo-Portable-Linux/run.sh
+          echo 'cd "$PWD"' >> build/releases/Codo-Portable-Linux/run.sh
+          echo 'exec "$DIR/usr/bin/Codo.x86_64" "$@"' >> build/releases/Codo-Portable-Linux/run.sh
           chmod +x build/releases/Codo-Portable-Linux/run.sh
           chmod +x build/releases/Codo-Portable-Linux/usr/bin/Codo.x86_64
-          cat > build/releases/Codo-Portable-Linux/install.sh <<'EOF'
-#!/bin/bash
-sudo cp usr/bin/Codo.x86_64 /usr/local/bin/codo
-sudo chmod +x /usr/local/bin/codo
-sudo cp usr/lib/*.so /usr/local/lib/ 2>/dev/null || true
-sudo cp codo.desktop /usr/share/applications/
-sudo cp -r usr/share/icons/* /usr/share/icons/
-sudo update-desktop-database 2>/dev/null || true
-EOF
+
+          # install.sh
+          echo '#!/bin/bash' > build/releases/Codo-Portable-Linux/install.sh
+          echo 'sudo cp usr/bin/Codo.x86_64 /usr/local/bin/codo' >> build/releases/Codo-Portable-Linux/install.sh
+          echo 'sudo chmod +x /usr/local/bin/codo' >> build/releases/Codo-Portable-Linux/install.sh
+          echo 'sudo cp usr/lib/*.so /usr/local/lib/ 2>/dev/null || true' >> build/releases/Codo-Portable-Linux/install.sh
+          echo 'sudo cp codo.desktop /usr/share/applications/' >> build/releases/Codo-Portable-Linux/install.sh
+          echo 'sudo cp -r usr/share/icons/* /usr/share/icons/' >> build/releases/Codo-Portable-Linux/install.sh
+          echo 'sudo update-desktop-database 2>/dev/null || true' >> build/releases/Codo-Portable-Linux/install.sh
           chmod +x build/releases/Codo-Portable-Linux/install.sh
 
       - name: Upload artifacts
@@ -177,11 +178,12 @@ EOF
           chmod +x release-files/Codo.x86_64 2>/dev/null || true
           chmod +x release-files/codo 2>/dev/null || true
           chmod +x release-files/codo-wrapper 2>/dev/null || true
-          cat > release-files/README.md <<'EOF'
-# Codo - Code Editor Release Files
-ls -la release-files/
-echo "Release files prepared successfully"
-EOF
+
+          # README.md safe creation
+          echo "# Codo - Code Editor Release Files" > release-files/README.md
+          echo "" >> release-files/README.md
+          echo "ls -la release-files/" >> release-files/README.md
+          echo 'echo "Release files prepared successfully"' >> release-files/README.md
 
       - name: Create tarball for portable version
         run: |
