@@ -61,16 +61,16 @@ jobs:
           
           # Create AppRun launcher script
           cat > AppDir/AppRun << 'EOF'
-#!/bin/sh
-# Set up library path to include our custom libraries
-export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
-
-# Change to the AppImage mount point
-cd "$APPDIR"
-
-# Execute the main application
-exec "$APPDIR/usr/bin/Codo.x86_64" "$@"
-EOF
+          #!/bin/sh
+          # Set up library path to include our custom libraries
+          export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
+          
+          # Change to the AppImage mount point
+          cd "$APPDIR"
+          
+          # Execute the main application
+          exec "$APPDIR/usr/bin/Codo.x86_64" "$@"
+          EOF
           chmod +x AppDir/AppRun
           
           # Copy desktop file and icon to root of AppDir (required by AppImage spec)
