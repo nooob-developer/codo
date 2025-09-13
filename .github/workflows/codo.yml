@@ -31,9 +31,11 @@ jobs:
 
       - name: Install linuxdeploy
         run: |
+          # Download linuxdeploy
           wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
           chmod +x linuxdeploy-x86_64.AppImage
           
+          # Download linuxdeploy appimage plugin
           wget https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage
           chmod +x linuxdeploy-plugin-appimage-x86_64.AppImage
           
@@ -100,8 +102,12 @@ jobs:
             echo "Warning: libgdterm.so not found."
           fi
           
-          # Copy desktop file and icons to proper locations
+          # Copy and fix desktop file
           cp packaging/codo.desktop AppDir/usr/share/applications/
+          # Fix the Exec line in desktop file to point to correct binary
+          sed -i 's/Exec=Codo/Exec=Codo.x86_64/' AppDir/usr/share/applications/codo.desktop
+          
+          # Copy icons to proper locations
           cp packaging/codo-icon.png AppDir/usr/share/icons/hicolor/256x256/apps/
           cp packaging/codo-icon.png AppDir/usr/share/icons/hicolor/512x512/apps/
           
@@ -124,7 +130,8 @@ jobs:
           chmod +x AppDir/AppRun
           
           # Copy desktop file and icon to root of AppDir (required by AppImage spec)
-          cp packaging/codo.desktop AppDir/
+          # Fix the desktop file for root directory too
+          cp AppDir/usr/share/applications/codo.desktop AppDir/
           cp packaging/codo-icon.png AppDir/
 
       - name: Verify AppDir structure
