@@ -1,60 +1,89 @@
-name: Build & Release
+name: Build and Release Godot Linux AppImage
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - develop
+      - main
   pull_request:
-    types: [closed]
-    branches: [main]
+    branches:
+      - main
+    types:
+      - closed
+  workflow_dispatch:
 
 jobs:
   build:
-    if: github.event_name == 'workflow_dispatch' || 
-        (github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop')
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Export Godot Project
+      - name: Setup Godot export
         uses: firebelley/godot-export@v7.0.0
-        with: 
+        with:
           godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/4.4.1-stable/Godot_v4.4.1-stable_linux.x86_64.zip
           godot_export_templates_download_url: https://github.com/godotengine/godot-builds/releases/download/4.4.1-stable/Godot_v4.4.1-stable_export_templates.tpz
           relative_project_path: ./
           relative_export_path: build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Prepare Linux Desktop entry
+      - name: Prepare AppDir
         run: |
           mkdir -p AppDir/usr/bin
-          cp build/* AppDir/usr/bin/
-          cp packaging/codo.desktop AppDir/
-          cp packaging/codo-icon.png AppDir/
+          mkdir -p AppDir/usr/lib
+          mkdir -p AppDir/usr/share/applications
+          mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
+
+          cp build/* AppDir/usr/bin/ || true
+          cp addons/gdterm/bin/libgdterm.linux.template_release.x86_64.so AppDir/usr/lib/ || true
+
+          cp packaging/codo.desktop AppDir/usr/share/applications/
+          cp packaging/codo-icon.png AppDir/usr/share/icons/hicolor/256x256/apps/
+
+          echo '#!/bin/sh' > AppDir/AppRun
+          echo 'exec "$APPDIR/usr/bin/Codo.x86_64" "$@"' >> AppDir/AppRun
+          chmod +x AppDir/AppRun
+
+      - name: Install linuxdeploy
+        run: |
+          wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+          chmod +x linuxdeploy-x86_64.AppImage
 
       - name: Build AppImage
-        uses: AppImageCrafters/build-appimage@v1
+        run: |
+          ./linuxdeploy-x86_64.AppImage --appdir AppDir --output appimage
+          mv *.AppImage Codo.AppImage
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          appdir: AppDir
-          output: build/Codo.AppImage
+          name: Codo-AppImage
+          path: Codo.AppImage
+
+  release:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Codo-AppImage
+          path: .
 
       - name: Bump version and push tag
-        if: github.ref == 'refs/heads/main'
         id: tagger
         uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: patch
           release_branches: main
-          custom_tag: v0.0.1
 
-      - name: Create Release
-        if: github.ref == 'refs/heads/main'
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tagger.outputs.new_tag }}
-          name: "Release ${{ steps.tagger.outputs.new_tag }}"
-          files: |
-            build/**
+          name: Release ${{ steps.tagger.outputs.new_tag }}
+          files: Codo.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
